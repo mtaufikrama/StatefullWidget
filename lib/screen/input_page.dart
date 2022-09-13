@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:statefull_widget/main.dart';
 
 class InputPage extends StatefulWidget {
   const InputPage({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class _InputPageState extends State<InputPage> {
   var _formKey = GlobalKey<FormState>();
   var _controllerUserName = TextEditingController();
   var _controllerPassword = TextEditingController();
+  var _controllerPass = TextEditingController();
 
   var _gender = "Laki - Laki";
 
@@ -37,6 +39,32 @@ class _InputPageState extends State<InputPage> {
         title: const Text(
           "Input Page",
         ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: ((context) => AlertDialog(
+                      content: Text("Keluar dari aplikasi"),
+                      actions: <TextButton>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MenuPage(),
+                              ),
+                            );
+                          },
+                          child: const Text('Close'),
+                        ),
+                      ],
+                    )),
+              );
+            },
+            child: Icon(Icons.input),
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -49,9 +77,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           _textField(),
-          const SizedBox(
-            height: 32,
-          ),
           const ListTile(
             title: Text(
               "Text Form Field",
@@ -61,9 +86,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           _textFormField(),
-          const SizedBox(
-            height: 32,
-          ),
           const ListTile(
             title: Text(
               "Radio",
@@ -73,9 +95,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           _radio(),
-          const SizedBox(
-            height: 32,
-          ),
           const ListTile(
             title: Text(
               "Check Box",
@@ -85,9 +104,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           _checkBox(),
-          const SizedBox(
-            height: 32,
-          ),
           const ListTile(
             title: Text(
               "Switch",
@@ -97,9 +113,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           _switch(),
-          const SizedBox(
-            height: 32,
-          ),
           const ListTile(
             title: Text(
               "Slider",
@@ -109,9 +122,6 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           _sliderWitDivision(),
-          const SizedBox(
-            height: 32,
-          ),
           const ListTile(
             title: Text(
               "Bottom Sheet",
@@ -123,7 +133,7 @@ class _InputPageState extends State<InputPage> {
           ElevatedButton(
             onPressed: () => openModalBootmSheet(),
             child: Text(
-              'Modal BottomSheet',
+              'Modal Bottom Sheet',
             ),
           ),
         ],
@@ -217,12 +227,17 @@ class _InputPageState extends State<InputPage> {
             TextFormField(
               validator: (value) => value == '' ? "Dont Empty" : null,
               controller: _controllerUserName,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: InputDecoration(
+                labelText: 'Username',
+              ),
             ),
             TextFormField(
               validator: (value) => value == '' ? "Dont Empty" : null,
               controller: _controllerPassword,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                labelText: 'Password',
+                suffix: Icon(Icons.visibility),
+              ),
             ),
             SizedBox(
               height: 16,
@@ -230,8 +245,11 @@ class _InputPageState extends State<InputPage> {
             ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  print(_controllerPass.text);
+                  print(" ");
                   print(_controllerUserName.text);
                   print(_controllerPassword.text);
+
                   //.......
                 }
               },
@@ -255,7 +273,7 @@ class _InputPageState extends State<InputPage> {
           ),
           TextField(
             obscureText: true,
-            controller: TextEditingController(),
+            controller: _controllerPass,
             decoration: const InputDecoration(
               labelText: "Name",
               border: OutlineInputBorder(
@@ -283,36 +301,25 @@ class _InputPageState extends State<InputPage> {
         return SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Column(
-            children:  [
-             const SizedBox(
+            children: [
+              const SizedBox(
                 height: 8,
               ),
-             const Divider(
+              const Divider(
                 thickness: 3,
                 color: Colors.grey,
                 indent: 150,
                 endIndent: 150,
               ),
-              ListTile(
-                title: Text("Modal bottom sheet"),
-                trailing: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.close),
-                ),
-              ),
               Expanded(
                 child: ListView.builder(
-                
-                  itemCount: 10,
-                  itemBuilder: (context, index){
-                    return ListTile(
-                      onTap: (){},
-                      title: Text("Item $index"),
-                    );
-                  }
-                ),
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        onTap: () {},
+                        title: Text("Item $index"),
+                      );
+                    }),
               )
             ],
           ),
